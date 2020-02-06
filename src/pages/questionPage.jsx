@@ -110,12 +110,17 @@ class QuestionPage extends React.Component {
 	}
 
 	getPostingList = async () => {
+		const parameter = {
+			content_type : 'question'
+		}
+
 		const posting = {
 			method: 'get',
 			url: 'https://kodekula.com/posting/toplevel',
 			headers: {
 				'Content-Type': 'application/json'
-			}
+			},
+			params : parameter
 		};
 		await axios(posting)
 		.then(async (response) => {
@@ -156,7 +161,14 @@ class QuestionPage extends React.Component {
 		}
 	}
 
-
+	goToDetailQuestion = async (event)=> {
+        store.setState({
+            userId:event
+		})
+		console.log('isi event', event)
+		console.log(store.getState().userId)
+        await this.props.history.push('/pertanyaan/'+event)
+    }
 	render() {
 		return (
 			<React.Fragment>
@@ -170,7 +182,7 @@ class QuestionPage extends React.Component {
 							<Link style={{textDecoration:'none', color:'white'}} to='/pertanyaan/tulis'>
 								<button to='/artikel/tulis' className='btn btn-success button-write-article-control mt-4'>Tulis Pertanyaan</button>
 							</Link>
-							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content}/>)}
+							{this.state.postingList.map((content, i) => <UserOwnFile goToDetailQuestion={(event)=>this.goToDetailQuestion(event)} typeContent={content.posting_detail.content_type} content={content}/>)}
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />

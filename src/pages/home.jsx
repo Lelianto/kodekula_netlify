@@ -48,7 +48,7 @@ class Home extends React.Component {
         await axios(tags)
 			.then(async (response) => {
 				await this.setState({userInterest : response.data.user_tag_data})
-				await store.setState({userInterest : response.data.user_tag_data, isLoading: false})
+				await store.setState({userInterest : response.data.user_tag_data})
 			})
 			.catch(async (error) => {
 				await console.warn(error)
@@ -68,7 +68,7 @@ class Home extends React.Component {
 		await axios(tags)
 		.then(async (response) => {
 			await this.setState({interestList : response.data})
-			await store.setState({interestList : response.data, isLoading: false})
+			await store.setState({interestList : response.data})
 		})
 		.catch(async (error) => {
 			await console.warn(error)
@@ -108,7 +108,7 @@ class Home extends React.Component {
 		};
 		await axios(posting)
 		.then(async (response) => {
-			await this.setState({postingList : response.data.query_data, isLoading: false})
+			await this.setState({postingList : response.data.query_data})
 			// await store.setState({interestList : response.data})
 			console.warn('posting list', this.state.postingList)
 		})
@@ -145,6 +145,22 @@ class Home extends React.Component {
 		}
 	}
 
+	detailArticle = async (event)=> {
+        await store.setState({
+            userId:event
+		})
+        await this.props.history.push('/artikel/'+event)
+	}
+
+	goToDetailQuestion = async (event)=> {
+        store.setState({
+            userId:event
+		})
+		console.log('isi event', event)
+		console.log(store.getState().userId)
+        await this.props.history.push('/pertanyaan/'+event)
+    }
+	
 	render() {
 		return (
 			<React.Fragment>
@@ -154,34 +170,9 @@ class Home extends React.Component {
 						<div className="col-lg-2 col-md-2 col-sm-12 col-12 mt-5">
 							<InterestList tags={this.state.filterInterest} excludeTags={this.state.excludeTags} seeAll={this.seeAll} checkAll={()=>this.checkAll()}/>
 						</div>
-						{this.props.isLoading===true?
-							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
-								<div >
-									<div className='container' style={{paddingTop:'200px'}}>
-										<div className='row'>
-											<div className='col-md-4'></div>
-											<div className='col-md-4'>
-												<div class="spinner-grow text-danger" style={{width: '4rem', height: '4rem'}} role="status">
-													<span class="sr-only">Loading...</span>
-												</div>
-												<div class="spinner-grow text-info" style={{width: '4rem', height: '4rem'}} role="status">
-													<span class="sr-only">Loading...</span>
-												</div>
-												<div class="spinner-grow text-success" style={{width: '4rem', height: '4rem'}} role="status">
-													<span class="sr-only">Loading...</span>
-												</div>
-											</div>
-											<div className='col-md-4'></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						:
-							<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
-								{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content}/>)}
-							</div>
-						}
-						
+						<div className="col-lg-7 col-md-7 col-sm-12 col-12 mt-5 pl-0 pr-0">
+							{this.state.postingList.map((content, i) => <UserOwnFile typeContent={content.posting_detail.content_type} content={content} detailArticle={(e)=>this.detailArticle(e)} goToDetailQuestion={(e)=>this.goToDetailQuestion(e)}/>)}
+						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-12 mt-5">
 							<PopularList article={this.state.article} />
 						</div>
@@ -192,4 +183,4 @@ class Home extends React.Component {
 		);
 	}
 }
-export default connect('responseData, isLoading', actions)(withRouter(Home));
+export default connect('responseData', actions)(withRouter(Home));

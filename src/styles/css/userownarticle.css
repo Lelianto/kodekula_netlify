@@ -6,6 +6,7 @@
   margin-left: 0px;
   padding-bottom: 20px;
   overflow: auto;
+  margin-top: 25px;
 }
 .answer-question-control {
   text-align: justify;
@@ -18,6 +19,7 @@
 }
 .box-control {
   border: 1px solid #ececec;
+  background-color: white;
   border-radius: 5px;
   padding: 30px;
 }
@@ -41,6 +43,8 @@
   background-color: #d6e6f5;
 }
 .title-article-control {
+  text-decoration: none;
+  color: black !important;
   padding-top: 5px;
   padding-bottom: 5px;
   text-align: left;
@@ -185,4 +189,30 @@
 }
 .interweave__emoji--large {
   width: 3em;
+}
+.user-comment-control {
+  padding: 0px !important;
+}
+.time-article-comment-control {
+  font-size: 10px;
+}
+.writer-photo-comment {
+  width: 45%;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+.preview-comment-control {
+  font-size: 12px !important;
+  background-color: ghostwhite;
+  padding: 5px;
+}
+.box-comment-control {
+  border: 1px solid #e4dede;
+  background-color: white;
+  border-radius: 5px;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+.control-comment-user {
+  padding: 0px;
 }

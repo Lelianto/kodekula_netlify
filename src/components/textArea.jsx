@@ -8,6 +8,14 @@ import { storage } from '../firebase'
 
 const listTags = ['reactjs','python','mysql']
 class TextArea extends React.Component {
+    constructor(props){
+        super(props);
+        this.escFunction = this.escFunction.bind(this);
+        this.state = {
+            tagging : [],
+            taggingList : []
+        }
+    }
     updateContent=(newContent)=> {
         store.setState({
             newArticle: newContent
@@ -71,14 +79,6 @@ class TextArea extends React.Component {
         })
     }
 
-    constructor(props){
-        super(props);
-        this.escFunction = this.escFunction.bind(this);
-        this.state = {
-            tagging : [],
-            taggingList : []
-        }
-    }
     escFunction(event){
         if(event.keyCode === 13) {
             store.setState({
@@ -99,6 +99,7 @@ class TextArea extends React.Component {
     componentWillUnmount(){
         document.removeEventListener("keydown", this.escFunction, false);
     }
+
     controlTag = async (event) => {
         console.log(event.target.checked)
         let taggingList = this.state.taggingList
@@ -115,7 +116,6 @@ class TextArea extends React.Component {
     
     render() {
         const addedTag = this.state.tagging
-        console.log('isi added',this.state.tagging)
         return (
             <div style={{marginBottom:'20px'}}>
                 <div className='row'>
@@ -200,7 +200,7 @@ class TextArea extends React.Component {
                                 <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' id="file" name="file" onChange={this.fileSelectedHandler}/>
                         </div>
                         <div className='col-md-4'>
-                            <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={this.uploadPhoto}>Upload</button>
+                            <button style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn-outline-info' className='btn btn-info' type='file' onClick={()=>this.uploadPhoto()}>Upload</button>
                         </div>
                     <div className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>
@@ -210,10 +210,10 @@ class TextArea extends React.Component {
                         </Link>
                     </div>
                     <div className='col-md-4'>
-                        <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={this.fileSelectedHandler}/>
+                        <input style={{fontSize:'12px', paddingRight:'0', width:'194px'}} className='btn-outline-info' type='file' onChange={()=>this.fileSelectedHandler()}/>
                     </div>
                     <div className='col-md-4'>
-                        <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={this.uploadArticlePhoto}>Upload</button>
+                        <button className='btn' style={{fontSize:'12px', paddingRight:'0', width:'185px'}} className='btn btn-info' onClick={()=>this.uploadArticlePhoto()}>Upload</button>
                     </div>
                     <div className="col-sm-4">
                         <Link style={{textDecoration:'none'}} className='link-button-text-area'>
@@ -225,7 +225,7 @@ class TextArea extends React.Component {
                     <div className="col-sm-8">
                         <div style={{textDecoration:'none', borderRadius:'5px'}} className='link-button-text-area'>
                             <div className='button-text-area'>
-                                [ {this.props.imageUrl} ] 
+                                <img width='100px' height='100px' src={this.props.imageArticleUrl} alt=""/>
                             </div>
                         </div>
                     </div>
